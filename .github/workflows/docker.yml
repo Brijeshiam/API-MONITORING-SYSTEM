@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -21,15 +22,15 @@ jobs:
 
       - name: Build Backend Docker Image
         run: |
-          docker build -f Dockerfile.backend -t brijesh112007/my_api_project-backend:latest .
+          docker build -t brijesh112007/my_api_project-backend:latest .
 
       - name: Push Backend Docker Image
-        run: |
+        run: |  
           docker push brijesh112007/my_api_project-backend:latest
 
       - name: Build Worker Docker Image
         run: |
-          docker build -f Dockerfile.worker -t brijesh112007/my_api_project-worker:latest .
+          docker build -t brijesh112007/my_api_project-worker:latest .
 
       - name: Push Worker Docker Image
         run: |
