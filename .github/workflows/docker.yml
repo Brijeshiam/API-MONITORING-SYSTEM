@@ -6,9 +6,7 @@ on:
       - main
 
 jobs:
-
   docker:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -16,14 +14,12 @@ jobs:
       # =========================
       # CHECKOUT CODE
       # =========================
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
       # =========================
       # LOGIN TO DOCKER HUB
       # =========================
-
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -33,31 +29,27 @@ jobs:
       # =========================
       # BUILD BACKEND IMAGE
       # =========================
-
       - name: Build Backend Docker Image
         run: |
-          docker build -t ${{secrets.DOCKERHUB_USERNAME}}/brijesh112007/my_api_project-backend:latest .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my_api_project-backend:latest .
 
       # =========================
       # PUSH BACKEND IMAGE
       # =========================
-
       - name: Push Backend Docker Image
         run: |
-          docker push ${{secrets.DOCKERHUB_USERNAME}}/brijesh112007/my_api_project-backend:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my_api_project-backend:latest
 
       # =========================
       # BUILD WORKER IMAGE
       # =========================
-
       - name: Build Worker Docker Image
         run: |
-          docker build -t ${{secrets.DOCKERHUB_USERNAME}}/brijesh112007/my_api_project-worker:latest .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my_api_project-worker:latest .
 
       # =========================
       # PUSH WORKER IMAGE
       # =========================
-
       - name: Push Worker Docker Image
         run: |
-          docker push ${{secrets.DOCKERHUB_USERNAME}}/brijesh112007/my_api_project-worker:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my_api_project-worker:latest
