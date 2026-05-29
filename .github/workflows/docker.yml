@@ -12,7 +12,7 @@ jobs:
     steps:
 
       # =========================
-      # CHECKOUT CODE
+      # CHECKOUT REPOSITORY
       # =========================
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -38,18 +38,18 @@ jobs:
       # =========================
       - name: Push Backend Docker Image
         run: |
-          docker push ${{secrets.DOCKERHUB_USERNAME}}/my_api_project-backend:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my_api_project-backend:latest
 
       # =========================
       # BUILD WORKER IMAGE
       # =========================
       - name: Build Worker Docker Image
         run: |
-          docker build -t ${{secrets.DOCKERHUB_USERNAME}}/my_api_project-worker:latest .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my_api_project-worker:latest .
 
       # =========================
       # PUSH WORKER IMAGE
       # =========================
       - name: Push Worker Docker Image
         run: |
-          docker push ${{secrets.DOCKERHUB_USERNAME}}/my_api_project-worker:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my_api_project-worker:latest
