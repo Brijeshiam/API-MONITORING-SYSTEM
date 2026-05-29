@@ -60,4 +60,4 @@ jobs:
 
       - name: Push Worker Docker Image
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my_api_project-worker:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/brijesh112007/my_api_project-worker:latest
