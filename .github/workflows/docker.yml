@@ -38,7 +38,7 @@ jobs:
       # =========================
       - name: Push Backend Docker Image
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my_api_project-backend:latest
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/my_api_project-backend:latest
 
       # =========================
       # BUILD WORKER IMAGE
