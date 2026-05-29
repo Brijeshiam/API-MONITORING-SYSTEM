@@ -45,7 +45,7 @@ jobs:
       # =========================
       - name: Build Worker Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my_api_project-worker:latest .
+          docker build -t ${{secrets.DOCKERHUB_USERNAME}}/my_api_project-worker:latest .
 
       # =========================
       # PUSH WORKER IMAGE
