@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Premium API Uptime Monitoring and Alert System Dashboard. Monitor latencies, HTTP states, endpoints, and configure notification alerts in real-time.">
+  <title>Apex Uptime - API Monitoring & Alert System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Toast Alerts Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- AUTH SECTION (LOGIN/REGISTER) -->
+  <div id="auth-container" class="hidden">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>APEX UPTIME</h1>
+        <p>Real-time API Monitoring & Alerting</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button id="tab-login" class="auth-tab active">Sign In</button>
+        <button id="tab-register" class="auth-tab">Create Account</button>
+      </div>
+
+      <!-- Login Form Panel -->
+      <div id="form-login-section">
+        <form id="login-form">
+          <div class="form-group">
+            <label for="login-email">Email Address</label>
+            <input type="email" id="login-email" class="form-input" placeholder="name@domain.com" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Sign In to Dashboard</button>
+        </form>
+      </div>
+
+      <!-- Register Form Panel -->
+      <div id="form-register-section" class="hidden">
+        <form id="register-form">
+          <div class="form-group">
+            <label for="register-name">Full Name</label>
+            <input type="text" id="register-name" class="form-input" placeholder="John Doe" required>
+          </div>
+          <div class="form-group">
+            <label for="register-email">Email Address</label>
+            <input type="email" id="register-email" class="form-input" placeholder="name@domain.com" required>
+          </div>
+          <div class="form-group">
+            <label for="register-password">Password</label>
+            <input type="password" id="register-password" class="form-input" placeholder="Minimum 6 characters" minlength="6" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APPLICATION LAYOUT -->
+  <div id="app-container" class="hidden">
+    
+    <!-- Sidebar Navigation -->
+    <aside>
+      <div class="brand">
+        <div class="brand-icon">▲</div>
+        <div class="brand-title">Apex Uptime</div>
+      </div>
+      
+      <nav class="nav-menu">
+        <button class="nav-item active">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" />
+          </svg>
+          Dashboard
+        </button>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div id="user-initial" class="user-avatar">-</div>
+          <div class="user-info">
+            <div id="user-name" class="user-name">Loading...</div>
+            <div id="user-email" class="user-email">...</div>
+          </div>
+        </div>
+        <button id="btn-logout" class="nav-item" style="color: var(--danger);">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main>
+      <div class="dashboard-header">
+        <div class="dashboard-title">
+          <h2>Uptime Overview</h2>
+          <p>Real-time endpoint monitor statuses and latency checks</p>
+        </div>
+        
+        <div class="header-actions">
+          <button id="btn-refresh" class="btn btn-secondary">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H18.235" />
+            </svg>
+            Refresh Data
+          </button>
+          <button id="btn-open-add-modal" class="btn btn-primary">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Add Monitor
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <section class="stats-grid">
+        <div class="stat-card primary">
+          <div class="stat-label">Total Endpoints</div>
+          <div id="metric-total" class="stat-value">0</div>
+          <div class="stat-desc">registered targets</div>
+        </div>
+        <div class="stat-card success">
+          <div class="stat-label">Status UP</div>
+          <div id="metric-up" class="stat-value text-success">0</div>
+          <div class="stat-desc">functioning correctly</div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-label">Status DOWN</div>
+          <div id="metric-down" class="stat-value text-danger">0</div>
+          <div class="stat-desc">reporting outages</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-label">Overall Uptime</div>
+          <div id="metric-uptime" class="stat-value text-warning">0%</div>
+          <div class="stat-desc">percentage ratio</div>
+        </div>
+        <div class="stat-card primary">
+          <div class="stat-label">Avg Latency</div>
+          <div id="metric-avg-time" class="stat-value">0ms</div>
+          <div class="stat-desc">operational response time</div>
+        </div>
+      </section>
+
+      <!-- Dashboard Split Content -->
+      <div class="dashboard-content">
+        
+        <!-- Monitors List Panel (Left) -->
+        <section class="section-card">
+          <div class="section-header">
+            <h3>Monitored Targets</h3>
+          </div>
+          <div id="monitors-list" class="monitors-grid">
+            <div class="loader-container">
+              <div class="loader"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Incidents & Audit Logs Panel (Right) -->
+        <section class="section-card">
+          <div class="section-header">
+            <h3>Latest Logs</h3>
+          </div>
+          <div id="logs-list" class="logs-list">
+            <div class="loader-container">
+              <div class="loader"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- ADD MONITOR MODAL -->
+  <div id="add-monitor-modal" class="modal-backdrop hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add API Target</h3>
+        <button id="btn-close-add-modal" class="modal-close">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <form id="add-monitor-form">
+        <div class="form-group">
+          <label for="monitor-name">API Name</label>
+          <input type="text" id="monitor-name" class="form-input" placeholder="e.g. Auth Service Ping" required>
+        </div>
+        <div class="form-group">
+          <label for="monitor-url">Target URL</label>
+          <input type="url" id="monitor-url" class="form-input" placeholder="https://api.mycompany.com/health" required>
+        </div>
+        <div class="form-group">
+          <label for="monitor-method">Request Method</label>
+          <select id="monitor-method" class="form-input form-select" required>
+            <option value="GET" selected>GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="DELETE">DELETE</option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btn-cancel-add-modal" class="btn btn-secondary">Cancel</button>
+          <button type="submit" class="btn btn-primary">Start Monitoring</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

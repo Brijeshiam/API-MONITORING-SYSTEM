@@ -9,8 +9,6 @@ const authRoutes = require('./routes/authRoutes')
 app.use('/api/auth', authRoutes)
 app.use('/api/monitors', monitorRouter)
 app.use('/api/logs', logRouter)
+app.use(express.static('public'))
 
-app.get("/", (req, res) => {
-    res.send("API Monitor Running");
-});
 module.exports = app

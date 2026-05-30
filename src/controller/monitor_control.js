@@ -40,9 +40,39 @@ const getMonitors = async (req, res) => {
     }
 };
 
+const deleteMonitor = async (req, res) => {
+    try {
+        const MonitorLog = require("../models/MonitorLog");
+        const monitor = await Monitor.findOneAndDelete({
+            _id: req.params.id,
+            userId: req.user.id,
+        });
+
+        if (!monitor) {
+            return res.status(404).json({
+                success: false,
+                message: "Monitor not found or unauthorized",
+            });
+        }
+
+        // Delete logs for this monitor
+        await MonitorLog.deleteMany({ monitorId: req.params.id });
+
+        res.status(200).json({
+            success: true,
+            message: "Monitor and logs deleted successfully",
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
 
 module.exports = {
     createMonitor,
     getMonitors,
+    deleteMonitor,
 };
-
