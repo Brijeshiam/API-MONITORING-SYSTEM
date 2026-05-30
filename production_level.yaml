@@ -20,6 +20,7 @@ services:
       - .env
     depends_on:
       - mongo
+    command: node worker.js
     restart: always
 
   mongo:
