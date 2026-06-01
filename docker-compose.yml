@@ -4,7 +4,7 @@ services:
 
   # ---------------- BACKEND ----------------
   backend:
-    build: .
+    build: ./backend
     container_name: uptime_backend
     ports:
       - "3000:3000"
@@ -18,7 +18,7 @@ services:
 
   # ---------------- WORKER ----------------
   worker:
-    build: .
+    build: ./backend
     container_name: uptime_worker
     env_file:
       - .env
@@ -42,7 +42,7 @@ services:
       - mongo_data:/data/db
 
 
-  # ---------------- MONGO EXPRESS (optional UI) ----------------
+  # ---------------- MONGO EXPRESS ----------------
   mongo-express:
     image: mongo-express
     container_name: mongo-express
@@ -57,7 +57,7 @@ services:
       - mongo
 
 
-  # ---------------- FRONTEND (STATIC FILES) ----------------
+  # ---------------- FRONTEND ----------------
   frontend:
     image: nginx:alpine
     container_name: uptime_frontend
